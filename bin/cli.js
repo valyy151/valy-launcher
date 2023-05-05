@@ -52,7 +52,7 @@ function cloneAndInstall(repoName) {
 		process.exit(1)
 	}
 
-	console.log(`${MAGENTA}Installing dependencies...${RESET}`)
+	console.log(`${ORANGE}Installing dependencies...${RESET}`)
 
 	const installedDeps = runCommand(installDepsCommand)
 	if (!installedDeps) {
