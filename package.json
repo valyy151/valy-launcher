@@ -1,5 +1,5 @@
 {
-  "name": "valy-launcher",
+  "name": "valylauncher",
   "type": "commonjs",
   "version": "1.0.0",
   "bin": "./bin/cli.js",
