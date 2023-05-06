@@ -1,26 +1,27 @@
-import config from 'config'
-import { Request } from 'express'
-const { expressjwt: jwt } = require('express-jwt')
+import jwt, { Secret, JwtPayload } from 'jsonwebtoken'
+import { Request, Response, NextFunction } from 'express'
 
-const TOKEN_SECRET = process.env.TOKEN_SECRET || (config.get('TOKEN_SECRET') as string)
+const TOKEN_SECRET = process.env.TOKEN_SECRET as string
 
-const isAuthenticated = jwt({
-	secret: TOKEN_SECRET,
-	algorithms: ['HS256'],
-	requestProperty: 'payload',
-	getToken: getTokenFromHeaders,
-})
+export const SECRET_KEY: Secret = TOKEN_SECRET
 
-function getTokenFromHeaders(req: Request) {
-	{
-		if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-			const token = req.headers.authorization.split(' ')[1]
-
-			return token
-		}
-
-		return null
-	}
+export interface CustomRequest extends Request {
+	token: string | JwtPayload
 }
 
-export default isAuthenticated
+export const Authenticate = async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		const token = req.header('Authorization')?.replace('Bearer ', '')
+
+		if (!token) {
+			throw new Error()
+		}
+
+		const decoded = jwt.verify(token, SECRET_KEY)
+		;(req as CustomRequest).token = decoded
+
+		next()
+	} catch (err) {
+		res.status(401).json('Unauthorized.')
+	}
+}
