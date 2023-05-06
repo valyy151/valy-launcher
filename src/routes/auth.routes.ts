@@ -47,8 +47,9 @@ router.post('/register', async (req: Request, res: Response) => {
 		await User.create({ name, email, password: hashedPassword })
 
 		res.status(201).json({ message: 'User created successfully.' })
-	} catch (err) {
-		res.json(err)
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({ message: 'Something went wrong.' })
 	}
 })
 
@@ -82,7 +83,8 @@ router.post('/login', async (req: Request, res: Response) => {
 			const TOKEN_SECRET: Secret | undefined = process.env.TOKEN_SECRET
 
 			if (!TOKEN_SECRET) {
-				throw new Error('Token secret is not defined.')
+				res.status(400).json({ message: 'Token secret is missing.' })
+				return
 			}
 
 			const token = jwt.sign(payload, TOKEN_SECRET, {
@@ -94,7 +96,8 @@ router.post('/login', async (req: Request, res: Response) => {
 		} else {
 			res.status(401).json({ message: 'Wrong email or password.' })
 		}
-	} catch (err) {
+	} catch (error) {
+		console.log(error)
 		res.status(500).json({ message: 'Something went wrong.' })
 	}
 })
