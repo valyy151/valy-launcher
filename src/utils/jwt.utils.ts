@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import config from 'config'
 
-const TOKEN_SECRET = config.get('privateKey') as string
+const TOKEN_SECRET = process.env.TOKEN_SECRET || (config.get('TOKEN_SECRET') as string)
 
 export function sign(object: Object, options?: jwt.SignOptions | undefined) {
 	return jwt.sign(object, TOKEN_SECRET, options)

@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import config from 'config'
 
 async function connect() {
-	const MONGO_URL = config.get('MONGO_URL') as string
+	const MONGO_URL = process.env.MONGO_URL || (config.get('MONGO_URL') as string)
 
 	try {
 		await mongoose.connect(MONGO_URL)

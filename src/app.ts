@@ -1,8 +1,11 @@
 import express from 'express'
 import config from 'config'
+import dotenv from 'dotenv'
 import connect from './db/connect'
 
-const PORT = config.get('PORT') as number
+dotenv.config()
+
+const PORT = process.env.PORT || config.get('PORT')
 
 const app = express()
 

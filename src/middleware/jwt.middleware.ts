@@ -1,9 +1,11 @@
+import config from 'config'
 import { Request } from 'express'
-
 const { expressjwt: jwt } = require('express-jwt')
 
+const TOKEN_SECRET = process.env.TOKEN_SECRET || (config.get('TOKEN_SECRET') as string)
+
 const isAuthenticated = jwt({
-	secret: process.env.TOKEN_SECRET,
+	secret: TOKEN_SECRET,
 	algorithms: ['HS256'],
 	requestProperty: 'payload',
 	getToken: getTokenFromHeaders,
