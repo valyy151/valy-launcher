@@ -1,13 +1,9 @@
 #! /usr/bin/env node
 
 const RESET = '\x1b[0m'
-const RED = '\x1b[31m'
-const GREEN = '\x1b[32m'
-const YELLOW = '\x1b[33m'
-const BLUE = '\x1b[34m'
-const MAGENTA = '\x1b[35m'
 const CYAN = '\x1b[36m'
 const ORANGE = '\x1b[38;2;255;165;0m'
+const GOLD = '\x1b[38;2;255;215;0m'
 
 const { execSync } = require('child_process')
 const readline = require('readline')
@@ -59,6 +55,6 @@ function cloneAndInstall(repoName) {
 		process.exit(1)
 	}
 	console.clear()
-	console.log(`${ORANGE}Done! Now do the following to start development:${RESET}`)
-	console.log(`${CYAN}cd ${repoName} && npm run dev${RESET}`)
+	console.log(`${GOLD}Done! Now do the following to start development:${RESET}`)
+	console.log(`${ORANGE}cd ${repoName} && npm run dev${RESET}`)
 }

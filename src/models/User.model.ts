@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
 
 export interface UserDocument extends mongoose.Document {
-	email: string
 	name: string
+	email: string
 	password: string
 	createdAt: Date
 	updatedAt: Date
@@ -10,9 +10,9 @@ export interface UserDocument extends mongoose.Document {
 
 const UserSchema = new mongoose.Schema(
 	{
-		email: { type: String, required: true, unique: true },
 		name: { type: String, required: true },
 		password: { type: String, required: true },
+		email: { type: String, required: true, unique: true },
 	},
 	{ timestamps: true },
 )

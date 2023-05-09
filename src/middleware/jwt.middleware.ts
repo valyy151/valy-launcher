@@ -6,10 +6,10 @@ const TOKEN_SECRET = process.env.TOKEN_SECRET as string
 export const SECRET_KEY: Secret = TOKEN_SECRET
 
 export interface CustomRequest extends Request {
-	token: string | JwtPayload
+	token: string | object
 }
 
-export const Authenticate = async (req: Request, res: Response, next: NextFunction) => {
+const authenticate = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const token = req.header('Authorization')?.replace('Bearer ', '')
 
@@ -25,3 +25,5 @@ export const Authenticate = async (req: Request, res: Response, next: NextFuncti
 		res.status(401).json('Unauthorized.')
 	}
 }
+
+export default authenticate
