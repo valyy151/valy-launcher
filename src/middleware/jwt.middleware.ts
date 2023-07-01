@@ -1,15 +1,11 @@
-import jwt, { Secret, JwtPayload } from 'jsonwebtoken'
-import { Request, Response, NextFunction } from 'express'
+import jwt, { JwtPayload } from 'jsonwebtoken'
+import { NextFunction, Response, Request } from 'express'
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET as string
 
-export const SECRET_KEY: Secret = TOKEN_SECRET
+export const SECRET_KEY: string = TOKEN_SECRET
 
-export interface CustomRequest extends Request {
-	token: string | object
-}
-
-const authenticate = async (req: Request, res: Response, next: NextFunction) => {
+export default async function Authenticate(req: Request, res: Response, next: NextFunction) {
 	try {
 		const token = req.header('Authorization')?.replace('Bearer ', '')
 
@@ -17,13 +13,11 @@ const authenticate = async (req: Request, res: Response, next: NextFunction) => 
 			throw new Error()
 		}
 
-		const decoded = jwt.verify(token, SECRET_KEY)
-		;(req as CustomRequest).token = decoded
+		const decoded = jwt.verify(token, SECRET_KEY) as JwtPayload
+		req.token = decoded
 
 		next()
 	} catch (err) {
 		res.status(401).json('Unauthorized.')
 	}
 }
-
-export default authenticate

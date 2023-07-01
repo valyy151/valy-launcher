@@ -1,6 +1,6 @@
 {
   "name": "valylauncher",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "bin": "./bin/cli.js",
   "scripts": {
     "build": "tsc",

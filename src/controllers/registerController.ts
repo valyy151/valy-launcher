@@ -12,12 +12,14 @@ const registerUser = async (req: Request, res: Response): Promise<void> => {
 		}
 
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+
 		if (!emailRegex.test(email)) {
 			res.status(400).json({ message: 'Please provide a valid email address.' })
 			return
 		}
 
 		const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/
+
 		if (!passwordRegex.test(password)) {
 			res.status(400).json({
 				message:
@@ -27,6 +29,7 @@ const registerUser = async (req: Request, res: Response): Promise<void> => {
 		}
 
 		const existingUser = await User.findOne({ email })
+
 		if (existingUser) {
 			res.status(400).json({ message: 'User already exists.' })
 			return
